@@ -3595,6 +3595,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 331554805834479187, guid: cc979301ead36a64bad5cf0ad5a0d78d, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 331554805834479190, guid: cc979301ead36a64bad5cf0ad5a0d78d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.5250006
@@ -3638,6 +3642,10 @@ PrefabInstance:
     - target: {fileID: 331554805834479197, guid: cc979301ead36a64bad5cf0ad5a0d78d, type: 3}
       propertyPath: m_Name
       value: Gravity Movable - Throw - Brown
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998761203329293468, guid: cc979301ead36a64bad5cf0ad5a0d78d, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
