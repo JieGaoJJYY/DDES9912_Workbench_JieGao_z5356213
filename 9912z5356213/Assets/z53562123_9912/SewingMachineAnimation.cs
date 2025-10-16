@@ -21,7 +21,8 @@ public class SewingMachineAnimation : MonoBehaviour
         if (other.tag == "cloth")
         {
             other.transform.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount += 0.1f;
-            other.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = other.transform.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount.ToString();
+            int result = (int)(other.transform.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount * 100f);
+            other.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = result.ToString()+"%";
             if(other.transform.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount == 1f && isfinsh == false)
             {
                 audioSource.Play();
