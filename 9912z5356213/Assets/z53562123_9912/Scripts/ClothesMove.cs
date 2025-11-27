@@ -39,19 +39,36 @@ public class ClothesMove : MonoBehaviour
                 if (Vector3.Distance(clothes.position, aim.position) <= 0.01f)
                 {
                     Debug.Log("走到");
-                    clothes.parent = null;
-                    clothes = null;
-                    isMid = false;
-                    if(aim == t1)
+                    if(aim == t2 && botSewingParent.childCount == 0)
                     {
-                        aim = t2;
+                        BotTakeCloth();
                     }
-                    else
-                    {
-                        aim = t1;
-                    }
+                    
                 }
             }
         }
+  }
+    //------------------------------------------------------------------------ 
+    //Bot拿走布是自动执行的
+    public Transform botSewingParent;
+    public void BotTakeCloth()
+    {
+        
+        clothes.parent = botSewingParent;
+        clothes = null;
+        isMid = false;
+        aim = t1;
+        botSewingParent.GetChild(0).localPosition = Vector3.zero;
+            
+        
     }
-}
+    //玩家需要点击布才能拿走布
+    public void PlayerTakeCloth()
+    {
+        if (clothes == null || aim== t2) return;
+        clothes.parent = null;
+        clothes = null;
+        isMid = false;
+        aim = t2;
+    }
+}   
