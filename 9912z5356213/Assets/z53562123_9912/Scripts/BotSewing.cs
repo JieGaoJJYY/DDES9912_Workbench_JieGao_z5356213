@@ -13,6 +13,7 @@ public class BotSewing : MonoBehaviour
     private float time = 1f;
     private float timer = 1f;
     public InteractableGeneral interactableGeneralStop;
+    public bool isFinsh = false;
     private void Update()
     {
         if (clothParent.childCount != 0 && clothParent.GetChild(0).GetChild(0).GetChild(1).GetComponent<Text>().text != "100%")
@@ -27,6 +28,7 @@ public class BotSewing : MonoBehaviour
                 interactableGeneral.onPrimaryInteract.Invoke();
                 //Debug.Log("·ìÈÒ»ú¿ª¹¤");
             }
+            isFinsh = false;
         }
         else if (clothParent.childCount != 0 && clothParent.GetChild(0).GetChild(0).GetChild(1).GetComponent<Text>().text == "100%")
         {
@@ -34,10 +36,13 @@ public class BotSewing : MonoBehaviour
             animator.SetBool("stop", true);
             interactableGeneralStop.onPrimaryInteract.Invoke();
             timer = time;
+            isFinsh = true;
         }
+        
         else
         {
             timer = time;
+            isFinsh = false;
         }
 
         

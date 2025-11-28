@@ -65,7 +65,8 @@ public class ClothesMove : MonoBehaviour
     //玩家需要点击布才能拿走布
     public void PlayerTakeCloth()
     {
-        if (clothes == null || aim== t2) return;
+
+        if (clothes == null || aim== t2||clothes.name=="1"||clothes.name=="3") return;
         clothes.parent = null;
         clothes = null;
         isMid = false;

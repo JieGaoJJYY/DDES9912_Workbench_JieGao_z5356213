@@ -18,9 +18,13 @@ public class PlaceNav : MonoBehaviour
     //NPC手里有布,传送带上没有布，就去End
     //传送带上有布就是Start
     public Transform[] cloth;
-
+    private int index = 0;
     private void Update()
     {
+        if(index > 4)
+        {
+            return;
+        }
         if(conveyor.childCount == 0 && presonHand.childCount == 0)
         {
             agent.SetDestination(t_Mid.position);
@@ -28,9 +32,12 @@ public class PlaceNav : MonoBehaviour
 
             if (Vector3.Distance(transform.position, t_Mid.position) <= 1.03f)
             {
-                int index = Random.Range(0, cloth.Length);
+                
                 Transform t = Instantiate(cloth[index], presonHand);
                 t.localPosition = Vector3.zero;
+                t.name = index.ToString();
+                index++;
+
             }
         }
         else if (presonHand.childCount>0 && conveyor.childCount == 0)
