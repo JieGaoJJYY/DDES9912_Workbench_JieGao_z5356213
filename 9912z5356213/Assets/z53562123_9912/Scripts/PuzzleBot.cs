@@ -6,19 +6,21 @@ public class PuzzleBot : MonoBehaviour
 {
     public BotSewing botSewing;
     public NavMeshAgent navMeshAgent;
-    public Transform start;//PuzleBot的起始位置
-    public Transform end;//PuzleBot的终点位置
+    public Transform start;//PuzleBot's starting position
+    public Transform end;//PuzleBot's final destination
     public Transform puzzleBotHand;
     public Transform sewingPiont;
-    public MovableMagnetSnapper pizzle0;//玩家放置编织完成的布料位置0
-    public Transform pizzle1;//PuzleBot放置编织完成布料的位置1
-    public MovableMagnetSnapper pizzle2;//玩家放置编织布料的位置2
-    public Transform pizzle3;//PuzleBot放置编织完成布料的位置3
-    //由于原始放置脚本来自于EZPZ，我无法让PuzleBot像玩家一样操作，因此我选择将PuzleBot放置的位置关闭原始脚本，直接使用坐标进行传递。
+    public MovableMagnetSnapper pizzle0;//Player places the woven fabric at position 0
+    public Transform pizzle1;//PuzleBot Placement of Woven Fabric Position 1
+    public MovableMagnetSnapper pizzle2;//Player placement location for woven fabric 2
+    public Transform pizzle3;//PuzleBot Placement: Finished Fabric Position 3
+    //Since the original placement script originated from EZPZ,
+    //I couldn't make PuzleBot operate like a player. Therefore,
+    //I chose to disable the original script at the placement location and directly pass coordinates instead.
     private void Update()
     {
         if(pizzle1.childCount !=0 &&  pizzle3.childCount != 0)
-            //当布料放置完成后，PuzleBot不再执行命令。
+        //When cloth placement is complete, PuzleBot will no longer execute commands.
         {
             return;
         }
@@ -28,7 +30,7 @@ public class PuzzleBot : MonoBehaviour
             if(puzzleBotHand.childCount != 0)
             {
                 return ;
-                //当puzzleBot手中有布料时，后续代码不执行。
+                //When puzzleBot has cloth in its hand, subsequent code does not execute.
             }
             navMeshAgent.SetDestination(end.position);
             if (Vector3.Distance(transform.position, end.position) <= 1.03f)
@@ -36,33 +38,33 @@ public class PuzzleBot : MonoBehaviour
                 if (sewingPiont.childCount == 0)
                 {
                     return;
-                    //当缝纫机上没有布料的时候，后续代码不执行。
+                    //When there is no cloth on the sewing machine, subsequent code does not execute.
                 }
                 myCloth = sewingPiont.GetChild(0);
                 myCloth.GetComponent<Movable>().enabled = false;
-                //关掉放置布料容器上的脚本，放置发生位移。
+                //Close the script on the fabric container to prevent displacement during placement.
                 Debug.Log(myCloth.name);
                 sewingPiont.GetChild(0).position = puzzleBotHand.position;
-                //PuzzleBot拿走缝纫机上的布料
+                //PuzzleBot removes the cloth from the sewing machine.
                 myCloth.parent = puzzleBotHand.transform;
                 myCloth.localPosition = Vector3.zero;
                 botSewing.isFinsh = false;
-                //拿走后缝纫机状态重置。
+                //After removal, the sewing machine status will reset.
                 Debug.Log("拿走");
             }
         }
         else
         {
             navMeshAgent.SetDestination(start.position);
-            //PuzzleBot回到起始位置。
+            //PuzzleBot returns to its starting position.
             if (Vector3.Distance(transform.position, start.position) <= 1.03f)
             {
                 myCloth = null;
-                //重置Cloth
+                //Reset Cloth
                 if (puzzleBotHand.childCount != 0)
                 {
                     if (puzzleBotHand.GetChild(0).name == "1")
-                        //puzzleBot将布料放置在该有的位置上，同时将布料的位置重置。
+                    //puzzleBot positions the cloth where it should be while simultaneously resetting the cloth's position.
                     {
                         pizzle0.enabled = false;
                         pizzle2.enabled = false;
@@ -72,7 +74,8 @@ public class PuzzleBot : MonoBehaviour
 
                         pizzle0.enabled = true;
                         pizzle2.enabled = true;
-                        //玩家放置布料的容器可能会在PizzleBot放置布料时将布料吸附过去，因此暂时关闭位置0和位置2上的组件
+                        //The container where players place fabric may attract the fabric when PizzleBot places it,
+                        //so components at positions 0 and 2 are temporarily disabled.
                     }
                     else if (puzzleBotHand.GetChild(0).name == "3")
                     {
@@ -91,15 +94,15 @@ public class PuzzleBot : MonoBehaviour
                 if (myCloth != null)
                 {
                     Text();
-                    //为了保证缝纫机上的布料可以放置在puzzleBotHand中
+                    //To ensure the fabric on the sewing machine can be placed in the puzzleBotHand
                 }
             }
         }
     }
 
     private Transform myCloth;
-    //PuzzleBot运送的布料
-   
+    //Fabric delivered by PuzzleBot
+
     public void Text()
     {
         myCloth.parent = puzzleBotHand;

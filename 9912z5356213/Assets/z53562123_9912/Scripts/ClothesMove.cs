@@ -4,37 +4,40 @@ using UnityEngine;
 public class ClothesMove : MonoBehaviour
 { 
     public Transform midt;
-    //公开三个坐标，分别是传送带上的三个位置。
+    //Three coordinates are publicly disclosed, representing three positions on the conveyor belt.
     public Transform t1;
     public Transform t2;
     private Transform aim;
-    public Transform clothes;//正在传送带上移动的布料
+    public Transform clothes;//Cloth moving along the conveyor belt
     public bool isMid = false;
-    //公开一个布尔值，判定布料有没有到达传送带上的中间位置。
-    
+    //Publicize a Boolean value indicating whether the fabric
+    //has reached the midpoint on the conveyor belt.
+
     private void Start()
     {
 
         aim = t1;
-        //仓库NPC首先将布料传送给玩家。
+        //The warehouse NPC will first deliver the fabric to the player.
     }
     private void Update()
     {
        if(clothes == null && transform.childCount != 0)
-            //当前没有正在传送的衣服，并且传送带上有子物体。
+        //There are currently no garments being conveyed,
+        //and there are sub-objects on the conveyor belt.
         {
             clothes = transform.GetChild(0);
-            //此时，子物体为正在传送的衣服。
+            //At this time, the child object is the garment being transferred.
         }
         else if(clothes!=null)
         {
             if(isMid == false)
             {
                 Vector3 vector3 = Vector3.MoveTowards(clothes.position, midt.position, 2f * Time.deltaTime);
-                //此时clothes向Midt进行移动。设置每帧移动的距离。计算当前移动的位置。
+                //At this time, the clothes move toward Midt. Set the distance to move per frame.
+                //Calculate the current position of the movement.
                 clothes.position = vector3;
                 if(Vector3.Distance(clothes.position, midt.position) <= 0.01f)
-                    //判断clothes是否走到了midt。
+                //Determine whether the clothes have reached the midpoint.
                 {
                     isMid = true;
                 }
@@ -42,7 +45,8 @@ public class ClothesMove : MonoBehaviour
             else
             {
                 Vector3 vector3 = Vector3.MoveTowards(clothes.position, aim.position, 2f * Time.deltaTime);
-                //当前的clothes走向Aim的坐标，aim有可能是t1或是t2.
+                //The current clothes are moving toward the Aim coordinates,
+                //where Aim could be either t1 or t2.
                 clothes.position = vector3;
                 if (Vector3.Distance(clothes.position, aim.position) <= 0.01f)
                 {
@@ -57,7 +61,7 @@ public class ClothesMove : MonoBehaviour
         }
   }
     //------------------------------------------------------------------------ 
-    //Bot拿走布是自动执行的
+    //The bot automatically takes the cloth.
     public Transform botSewingParent;
     public void BotTakeCloth()
     {
@@ -67,16 +71,18 @@ public class ClothesMove : MonoBehaviour
         isMid = false;
         aim = t1;
         botSewingParent.GetChild(0).localPosition = Vector3.zero;
-        //当clothes走到了t2时，将Clothes的父物体改为botSewingParent,并且坐标归零。
-            
-        
+        //When the clothes reach t2,
+        //change the parent object of Clothes to botSewingParent and reset its coordinates to zero.
+
+
     }
-    //玩家需要点击布才能拿走布
+    //Players need to click on the cloth to take it.
     public void PlayerTakeCloth()
     {
 
         if (clothes == null || aim== t2||clothes.name=="1"||clothes.name=="3") return;
-        //玩家负责完成1和3布料。剩下的2和4布料由NPC完成。
+        //Players are responsible for completing fabrics 1 and 3.
+        //The remaining fabrics 2 and 4 are completed by an NPC.
         clothes.parent = null;
         clothes = null;
         isMid = false;
